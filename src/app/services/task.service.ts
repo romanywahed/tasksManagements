@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from '../pages/models/task';
 
@@ -12,12 +12,6 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
- 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl);
-  }
-
- 
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task);
   }
@@ -28,7 +22,19 @@ export class TaskService {
   }
 
  
-  deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteTask(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
   }
+  getTasks(status?: string, priority?: string, dueDate?: string, sortBy: string = 'dueDate'): Observable<Task[]> {
+    let params = new HttpParams();
+  
+    if (status) params = params.set('status', status);
+    if (priority) params = params.set('priority', priority);
+    if (dueDate) params = params.set('dueDate', dueDate);
+  
+    // params = params.set('sortBy', sortBy);
+  
+    return this.http.get<Task[]>(`${this.apiUrl}`, { params });
+  }
+  
 }

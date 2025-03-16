@@ -15,16 +15,17 @@
     <div class="col-md-3">
       <select class="form-control" [(ngModel)]="statusFilter" (change)="filterTasks()">
         <option value="">All Status</option>
-        <option value="Pending">Pending</option>
-        <option value="Completed">Completed</option>
+        <option value="TO_DO">To Do</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="COMPLETED">Completed</option>
       </select>
     </div>
     <div class="col-md-3">
       <select class="form-control" [(ngModel)]="priorityFilter" (change)="filterTasks()">
         <option value="">All Priorities</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
       </select>
     </div>
   </div>
@@ -51,7 +52,9 @@
         <td>
           <button class="btn btn-primary btn-sm" (click)="openTaskModal(task)">Edit</button>
           <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">Delete</button>
-          <button class="btn btn-success btn-sm" *ngIf="task.status !== 'Completed'" (click)="markCompleted(task)">Mark Completed</button>
+          <button class="btn btn-success btn-sm" *ngIf="task.status !== 'Completed'" (click)="markCompleted(task)">
+            Mark Completed
+          </button>
         </td>
       </tr>
     </tbody>
@@ -60,12 +63,11 @@
   <!-- Pagination & Page Size Selector -->
   <div class="d-flex justify-content-between p-2">
     <ngb-pagination
-    [collectionSize]="tasks.length || 0"
-    [(page)]="page"
-    [pageSize]="pageSize"
-    (pageChange)="onPageChange()">
-  </ngb-pagination>
-  
+      [collectionSize]="tasks.length"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="onPageChange()">
+    </ngb-pagination>
 
     <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="onPageChange()">
       <option [ngValue]="2">2 items per page</option>
@@ -77,3 +79,55 @@
   <!-- Add Task Button -->
   <button class="btn btn-success" (click)="openTaskModal()">Add Task</button>
 </div>
+
+<!-- Task Modal -->
+<ng-template #taskModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="taskTitle">Title</label>
+        <input type="text" id="taskTitle" class="form-control" [(ngModel)]="selectedTask.title" name="title">
+      </div>
+
+      <div class="form-group">
+        <label for="taskDescription">Description</label>
+        <textarea id="taskDescription" class="form-control" [(ngModel)]="selectedTask.description" name="description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="taskStatus">Status</label>
+        <select id="taskStatus" class="form-control" [(ngModel)]="selectedTask.status" name="status">
+          <option value="TO_DO">To Do</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="taskPriority">Priority</label>
+        <select id="taskPriority" class="form-control" [(ngModel)]="selectedTask.priority" name="priority">
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input type="date" id="dueDate" class="form-control" [(ngModel)]="selectedTask.dueDate" name="dueDate">
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+    <button class="btn btn-primary" (click)="saveTask()">Save</button>
+  </div>
+</ng-template>
