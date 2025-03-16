@@ -1,0 +1,50 @@
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .table th {
+    cursor: pointer;
+    background: #f8f9fa;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .table th:hover {
+    background: #e9ecef;
+  }
+  
+  .table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .completed {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .btn-sm {
+    margin-right: 5px;
+  }
+  
+  .d-flex {
+    align-items: center;
+  }
+  
+  select.form-select {
+    min-width: 180px;
+  }
+  
